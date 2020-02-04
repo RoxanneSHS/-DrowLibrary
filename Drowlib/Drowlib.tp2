@@ -1,0 +1,523 @@
+BACKUP ~Drowlib/backup~
+AUTHOR ~Roxanne@baldursextendedworld.com based on Charles Bisson's CtB Chores~
+
+AUTO_TRA ~Drowlib/TRA~
+
+VERSION ~v0.1~
+
+LANGUAGE ~English~ ~english~ ~Drowlib/TRA/setup.tra~
+
+BEGIN ~Drow Library~
+
+COPY ~Drowlib/are~ ~override~
+
+COPY_EXISTING ~AR1106.ARE~ ~override~
+	READ_SHORT 0x5a  "infotrig_num"
+	READ_LONG  0x5c  "infotrig_offset"
+	SET info_1=1
+	FOR( cnt=0; cnt<"%infotrig_num%"; cnt=cnt+1 ) BEGIN  //triggers loop
+		READ_ASCII ("%infotrig_offset%"+0xc4*cnt)       "info_name"
+			PATCH_IF (("%info_name%" STRING_COMPARE_CASE "PoolofRadiance")=0) BEGIN  //if already exists
+				info_1=0
+			END
+		END
+		PATCH_IF (info_1=1) BEGIN 
+		PATCH_DEFINE_ASSOCIATIVE_ARRAY triggers BEGIN
+			1 , 293 ,  771 , 522 ,  916 , 22 , 1 , 409 , 846 , 412 , 500 , 0, "CB1106TR" , "NONE" , 0  => "PoolofRadiance"
+			2 , 293 ,  771 , 522 ,  916 , 34 , 1 , 409 , 927 , 490 , 927 , 1024, "NONE" , "AR3575" , "EXIT1106" => "Tran3575"
+		END
+		PATCH_DEFINE_ARRAY PoolofRadiance BEGIN 313 791 354 777 355 778 366 774 387 771 403 771 426 778 450 784 472 793 488 804
+												489 810 497 812 514 825 519 831 522 846 514 871 498 889 463 904 434 914 412 916
+												378 908 368 908 368 904 364 898 339 883 323 872 309 857 294 839 293 830 299 811 END		//vertex xy
+		PATCH_DEFINE_ARRAY Tran3575 BEGIN 313 791 354 777 355 778 366 774 387 771 403 771 426 778 450 784 472 793 488 804
+										489 810 497 812 514 825 519 831 522 846 514 871 498 889 463 904 434 914 412 916
+										378 908 368 908 368 904 364 898 339 883 323 872 309 857 294 839 293 830 299 811 END		//vertex xy
+		
+		PATCH_PHP_EACH triggers AS vars => name BEGIN
+			FOR ( cnt=0; cnt<60; cnt=cnt+1 ) BEGIN
+				SPRINT EVAL ~vertex_%cnt%~ $EVAL ~%name%~(~%cnt%~)
+			END
+			LPF fj_are_structure
+			INT_VAR
+			fj_type         		= EVAL vars_0    						
+			fj_box_left     		= EVAL vars_1                       
+			fj_box_top      		= EVAL vars_2                      
+			fj_box_right    		= EVAL vars_3                    
+			fj_box_bottom   		= EVAL vars_4                    
+			fj_cursor_idx           = EVAL vars_5 					
+			fj_trap_active          = EVAL vars_6                         
+			fj_loc_x				= EVAL vars_7                       
+			fj_loc_y				= EVAL vars_8 
+			fj_alt_x				= EVAL vars_9
+			fj_alt_y				= EVAL vars_10
+			fj_flags				= EVAL vars_11
+			fj_vertex_0     		= EVAL vertex_0 +  (vertex_1 << 16)   
+			fj_vertex_1     		= EVAL vertex_2 +  (vertex_3 << 16)   
+			fj_vertex_2     		= EVAL vertex_4 +  (vertex_5 << 16)   
+			fj_vertex_3     		= EVAL vertex_6 +  (vertex_7 << 16)   
+			fj_vertex_4     		= EVAL vertex_8 +  (vertex_9 << 16)
+			fj_vertex_5     		= EVAL vertex_10 + (vertex_11 << 16)
+			fj_vertex_6     		= EVAL vertex_12 + (vertex_13 << 16)
+			fj_vertex_7     		= EVAL vertex_14 + (vertex_15 << 16)
+			fj_vertex_8     		= EVAL vertex_16 + (vertex_17 << 16)   
+			fj_vertex_9     		= EVAL vertex_18 + (vertex_19 << 16)   
+			fj_vertex_10     		= EVAL vertex_20 + (vertex_21 << 16)   
+			fj_vertex_11    		= EVAL vertex_22 + (vertex_23 << 16)   
+			fj_vertex_12    		= EVAL vertex_24 + (vertex_25 << 16)
+			fj_vertex_13    		= EVAL vertex_26 + (vertex_27 << 16)
+			fj_vertex_14    		= EVAL vertex_28 + (vertex_29 << 16)
+			fj_vertex_15    		= EVAL vertex_30 + (vertex_31 << 16)
+			fj_vertex_16    		= EVAL vertex_32 + (vertex_33 << 16)   
+			fj_vertex_17    		= EVAL vertex_34 + (vertex_35 << 16)   
+			fj_vertex_18    		= EVAL vertex_36 + (vertex_37 << 16)   
+			fj_vertex_19    		= EVAL vertex_38 + (vertex_39 << 16)   
+			fj_vertex_20    		= EVAL vertex_40 + (vertex_41 << 16)
+			fj_vertex_21    		= EVAL vertex_42 + (vertex_43 << 16)
+			fj_vertex_22    		= EVAL vertex_44 + (vertex_45 << 16)
+			fj_vertex_23    		= EVAL vertex_46 + (vertex_47 << 16)
+			fj_vertex_24    		= EVAL vertex_48 + (vertex_49 << 16)   
+			fj_vertex_25    		= EVAL vertex_50 + (vertex_51 << 16)   
+			fj_vertex_26    		= EVAL vertex_52 + (vertex_53 << 16)   
+			fj_vertex_27    		= EVAL vertex_54 + (vertex_55 << 16)   
+			fj_vertex_28    		= EVAL vertex_56 + (vertex_57 << 16)
+			fj_vertex_29    		= EVAL vertex_58 + (vertex_59 << 16)
+			STR_VAR                                             
+			fj_structure_type   = region                        
+			fj_name             = EVAL ~%name%~
+			fj_reg_script       = EVAL ~%vars_12%~
+			fj_destination_area	= EVAL ~%vars_13%~                       
+			fj_destination_name = EVAL ~%vars_14%~   			
+			END
+		END
+  	END
+  	
+COPY ~Drowlib/extend/AR3575.ARE~ ~override~
+  SAY 0x3b0c @193
+  SAY 0x3bd0 @194
+  SAY 0x3c94 @194
+  SAY 0x3d58 @194
+  SAY 0x76b4 @700194
+  
+COPY ~Drowlib/tis~ ~override~
+
+EXTEND_TOP ~ar1106.bcs~ ~Drowlib/extend/ar1106.BAF~
+
+COMPILE ~Drowlib/baf~
+
+COPY ~Drowlib/cre~ ~override~
+
+COPY ~Drowlib/extend/cbchimra.cre~ ~override~ SAY NAME1 @31    SAY NAME2 @31
+COPY ~Drowlib/extend/CBDRIFAL.CRE~ ~override~ SAY NAME1 @33    SAY NAME2 @33
+COPY ~Drowlib/extend/CBDRIFML.CRE~ ~override~ SAY NAME1 @34    SAY NAME2 @34
+COPY ~Drowlib/extend/CBDRIFSL.CRE~ ~override~ SAY NAME1 @34    SAY NAME2 @34
+COPY ~Drowlib/extend/CBDRIMML.CRE~ ~override~ SAY NAME1 @33    SAY NAME2 @33
+COPY ~Drowlib/extend/CBDRIMSL.CRE~ ~override~ SAY NAME1 @33    SAY NAME2 @33
+
+COMPILE ~Drowlib/d~
+
+COPY ~Drowlib/itm/CB357526.ITM~ ~override~
+  SAY NAME2 @650009
+  SAY DESC  @650010
+  
+COPY ~Drowlib/itm/CBBK7501.ITM~ ~override~
+  SAY NAME2 @650122
+  SAY UNIDENTIFIED_DESC @650123
+  SAY DESC @650123
+COPY ~Drowlib/itm/CBBK7502.ITM~ ~override~
+  SAY NAME1 @650124
+  SAY NAME2 @650124
+  SAY UNIDENTIFIED_DESC @650125
+  SAY DESC @650125
+COPY ~Drowlib/itm/CBBK7503.ITM~ ~override~
+  SAY NAME1 @650126
+  SAY NAME2 @650126
+  SAY UNIDENTIFIED_DESC @650127
+  SAY DESC @650127
+COPY ~Drowlib/itm/CBBK7504.ITM~ ~override~
+  SAY NAME1 @650128
+  SAY NAME2 @650128
+  SAY UNIDENTIFIED_DESC @650129
+  SAY DESC @650129
+COPY ~Drowlib/itm/CBBK7505.ITM~ ~override~
+  SAY NAME1 @650130
+  SAY NAME2 @650130
+  SAY UNIDENTIFIED_DESC @650131
+  SAY DESC @650131
+COPY ~Drowlib/itm/CBBK7506.ITM~ ~override~
+  SAY NAME1 @650132
+  SAY NAME2 @650132
+  SAY UNIDENTIFIED_DESC @650133
+  SAY DESC @650133
+COPY ~Drowlib/itm/CBBK7507.ITM~ ~override~
+  SAY NAME1 @650134
+  SAY NAME2 @650134
+  SAY UNIDENTIFIED_DESC @650135
+  SAY DESC @650135
+COPY ~Drowlib/itm/CBBK7508.ITM~ ~override~
+  SAY NAME1 @650136
+  SAY NAME2 @650136
+  SAY UNIDENTIFIED_DESC @650137
+  SAY DESC @650137
+COPY ~Drowlib/itm/CBBK7509.ITM~ ~override~
+  SAY NAME1 @650138
+  SAY NAME2 @650138
+  SAY UNIDENTIFIED_DESC @650139
+  SAY DESC @650139
+COPY ~Drowlib/itm/CBBK7510.ITM~ ~override~
+  SAY NAME1 @650140
+  SAY NAME2 @650140
+  SAY UNIDENTIFIED_DESC @650141
+  SAY DESC @650141
+COPY ~Drowlib/itm/CBBK7511.ITM~ ~override~
+  SAY NAME1 @650142
+  SAY NAME2 @650142
+  SAY UNIDENTIFIED_DESC @650143
+  SAY DESC @650143
+COPY ~Drowlib/itm/CBBK7512.ITM~ ~override~
+  SAY NAME1 @650144
+  SAY NAME2 @650144
+  SAY UNIDENTIFIED_DESC @650145
+  SAY DESC @650145
+COPY ~Drowlib/itm/CBBK7513.ITM~ ~override~
+  SAY NAME1 @650146
+  SAY NAME2 @650146
+  SAY UNIDENTIFIED_DESC @650147
+  SAY DESC @650147
+COPY ~Drowlib/itm/CBBK7514.ITM~ ~override~
+  SAY NAME1 @650148
+  SAY NAME2 @650148
+  SAY UNIDENTIFIED_DESC @650149
+  SAY DESC @650149
+COPY ~Drowlib/itm/CBBK7515.ITM~ ~override~
+  SAY NAME1 @650150
+  SAY NAME2 @650150
+  SAY UNIDENTIFIED_DESC @650151
+  SAY DESC @650151
+COPY ~Drowlib/itm/CBBK7516.ITM~ ~override~
+  SAY NAME1 @650152
+  SAY NAME2 @650152
+  SAY UNIDENTIFIED_DESC @650153
+  SAY DESC @650153
+COPY ~Drowlib/itm/CBBK7517.ITM~ ~override~
+  SAY NAME1 @650154
+  SAY NAME2 @650154
+  SAY UNIDENTIFIED_DESC @650155
+  SAY DESC @650155
+COPY ~Drowlib/itm/CBBK7518.ITM~ ~override~
+  SAY NAME1 @650156
+  SAY NAME2 @650156
+  SAY UNIDENTIFIED_DESC @650157
+  SAY DESC @650157
+COPY ~Drowlib/itm/CBBK7519.ITM~ ~override~
+  SAY NAME1 @650158
+  SAY NAME2 @650158
+  SAY UNIDENTIFIED_DESC @650159
+  SAY DESC @650159
+COPY ~Drowlib/itm/CBBK7520.ITM~ ~override~
+  SAY NAME1 @650160
+  SAY NAME2 @650160
+  SAY UNIDENTIFIED_DESC @650161
+  SAY DESC @650161
+COPY ~Drowlib/itm/CBBK7521.ITM~ ~override~
+  SAY NAME2 @650162
+  SAY DESC @650163
+COPY ~Drowlib/itm/CBBK7522.ITM~ ~override~
+  SAY NAME1 @650164
+  SAY NAME2 @650164
+  SAY UNIDENTIFIED_DESC @650165
+  SAY DESC @650165
+COPY ~Drowlib/itm/CBBK7523.ITM~ ~override~
+  SAY NAME1 @650166
+  SAY NAME2 @650166
+  SAY UNIDENTIFIED_DESC @650167
+  SAY DESC @650167
+COPY ~Drowlib/itm/CBBK7524.ITM~ ~override~
+  SAY NAME1 @650168
+  SAY NAME2 @650168
+  SAY UNIDENTIFIED_DESC @650169
+  SAY DESC @650169
+COPY ~Drowlib/itm/CBBK7525.ITM~ ~override~
+  SAY NAME1 @650170
+  SAY NAME2 @650170
+  SAY UNIDENTIFIED_DESC @650171
+  SAY DESC @650171
+COPY ~Drowlib/itm/CBBK7526.ITM~ ~override~
+  SAY NAME2 @650172
+  SAY UNIDENTIFIED_DESC @650173
+  SAY DESC @650174
+COPY ~Drowlib/itm/CBBK7527.ITM~ ~override~
+  SAY NAME1 @650175
+  SAY NAME2 @650175
+  SAY UNIDENTIFIED_DESC @650176
+  SAY DESC @650176
+COPY ~Drowlib/itm/CBBK7528.ITM~ ~override~
+  SAY NAME1 @650177
+  SAY NAME2 @650177
+  SAY UNIDENTIFIED_DESC @650178
+  SAY DESC @650178
+COPY ~Drowlib/itm/CBBK7529.ITM~ ~override~
+  SAY NAME1 @650179
+  SAY NAME2 @650179
+  SAY UNIDENTIFIED_DESC @650180
+  SAY DESC @650180
+COPY ~Drowlib/itm/CBBK7530.ITM~ ~override~
+  SAY NAME1 @650181
+  SAY NAME2 @650181
+  SAY UNIDENTIFIED_DESC @650182
+  SAY DESC @650182
+COPY ~Drowlib/itm/CBBK7531.ITM~ ~override~
+  SAY NAME1 @650183
+  SAY NAME2 @650183
+  SAY UNIDENTIFIED_DESC @650184
+  SAY DESC @650184
+COPY ~Drowlib/itm/CBBK7532.ITM~ ~override~
+  SAY NAME1 @650185
+  SAY NAME2 @650185
+  SAY UNIDENTIFIED_DESC @650186
+  SAY DESC @650186
+COPY ~Drowlib/itm/CBBK7533.ITM~ ~override~
+  SAY NAME2 @650187
+  SAY DESC @650188
+COPY ~Drowlib/itm/CBBK7534.ITM~ ~override~
+  SAY NAME2 @650189
+  SAY DESC @650190
+COPY ~Drowlib/itm/CBBK7535.ITM~ ~override~
+  SAY NAME2 @650191
+  SAY DESC @650192
+COPY ~Drowlib/itm/CBBK7536.ITM~ ~override~
+  SAY NAME2 @650193
+  SAY DESC @650194
+COPY ~Drowlib/itm/CBBK7537.ITM~ ~override~
+  SAY NAME2 @650195
+  SAY DESC @650196
+COPY ~Drowlib/itm/CBBK7538.ITM~ ~override~
+  SAY NAME2 @650197
+  SAY DESC @650198
+COPY ~Drowlib/itm/CBBK7539.ITM~ ~override~
+  SAY NAME1 @650199
+  SAY NAME2 @650199
+  SAY UNIDENTIFIED_DESC @650200
+  SAY DESC @650200
+COPY ~Drowlib/itm/CBBK7540.ITM~ ~override~
+  SAY NAME1 @650201
+  SAY NAME2 @650201
+  SAY UNIDENTIFIED_DESC @650202
+  SAY DESC @650202
+COPY ~Drowlib/itm/CBBK7541.ITM~ ~override~
+  SAY NAME1 @650203
+  SAY NAME2 @650203
+  SAY UNIDENTIFIED_DESC @650204
+  SAY DESC @650204
+COPY ~Drowlib/itm/CBBK7542.ITM~ ~override~
+  SAY NAME1 @650205
+  SAY NAME2 @650205
+  SAY UNIDENTIFIED_DESC @650206
+  SAY DESC @650206
+COPY ~Drowlib/itm/CBBK7543.ITM~ ~override~
+  SAY NAME1 @650207
+  SAY NAME2 @650207
+  SAY UNIDENTIFIED_DESC @650208
+  SAY DESC @650208
+COPY ~Drowlib/itm/CBBK7544.ITM~ ~override~
+  SAY NAME1 @650209
+  SAY NAME2 @650209
+  SAY UNIDENTIFIED_DESC @650210
+  SAY DESC @650210
+COPY ~Drowlib/itm/CBBK7545.ITM~ ~override~
+  SAY NAME1 @650211
+  SAY NAME2 @650211
+  SAY UNIDENTIFIED_DESC @650212
+  SAY DESC @650212
+COPY ~Drowlib/itm/CBBK7546.ITM~ ~override~
+  SAY NAME1 @650213
+  SAY NAME2 @650213
+  SAY UNIDENTIFIED_DESC @650214
+  SAY DESC @650214
+COPY ~Drowlib/itm/CBBK7547.ITM~ ~override~
+  SAY NAME1 @650215
+  SAY NAME2 @650215
+  SAY UNIDENTIFIED_DESC @650216
+  SAY DESC @650216
+COPY ~Drowlib/itm/CBBK7548.ITM~ ~override~
+  SAY NAME1 @650217
+  SAY NAME2 @650217
+  SAY UNIDENTIFIED_DESC @650218
+  SAY DESC @650218
+COPY ~Drowlib/itm/CBBK7549.ITM~ ~override~
+  SAY NAME1 @650219
+  SAY NAME2 @650219
+  SAY UNIDENTIFIED_DESC @650220
+  SAY DESC @650220
+COPY ~Drowlib/itm/CBBK7550.ITM~ ~override~
+  SAY NAME1 @650221
+  SAY NAME2 @650221
+  SAY UNIDENTIFIED_DESC @650222
+  SAY DESC @650222
+COPY ~Drowlib/itm/CBBK7551.ITM~ ~override~
+  SAY NAME1 @650223
+  SAY NAME2 @650223
+  SAY UNIDENTIFIED_DESC @650224
+  SAY DESC @650224
+COPY ~Drowlib/itm/CBBK7552.ITM~ ~override~
+  SAY NAME1 @650225
+  SAY NAME2 @650225
+  SAY UNIDENTIFIED_DESC @650226
+  SAY DESC @650226
+COPY ~Drowlib/itm/CBBK7553.ITM~ ~override~
+  SAY NAME1 @650227
+  SAY NAME2 @650227
+  SAY UNIDENTIFIED_DESC @650228
+  SAY DESC @650228
+COPY ~Drowlib/itm/CBBK7554.ITM~ ~override~
+  SAY NAME1 @650229
+  SAY NAME2 @650230
+  SAY UNIDENTIFIED_DESC @650231
+  SAY DESC @650232
+COPY ~Drowlib/itm/CBBK7555.ITM~ ~override~
+  SAY NAME1 @650229
+  SAY NAME2 @650233
+  SAY UNIDENTIFIED_DESC @650231
+  SAY DESC @650234
+COPY ~Drowlib/itm/CBBK7556.ITM~ ~override~
+  SAY NAME1 @650229
+  SAY NAME2 @650235
+  SAY UNIDENTIFIED_DESC @650231
+  SAY DESC @650236
+COPY ~Drowlib/itm/CBBK7557.ITM~ ~override~
+  SAY NAME1 @650229
+  SAY NAME2 @650237
+  SAY UNIDENTIFIED_DESC @650231
+  SAY DESC @650238
+COPY ~Drowlib/itm/CBBK7558.ITM~ ~override~
+  SAY NAME1 @650229
+  SAY NAME2 @650239
+  SAY UNIDENTIFIED_DESC @650231
+  SAY DESC @650240
+COPY ~Drowlib/itm/CBBK7559.ITM~ ~override~
+  SAY NAME1 @650241
+  SAY NAME2 @650241
+  SAY UNIDENTIFIED_DESC @650242
+  SAY DESC @650242
+COPY ~Drowlib/itm/CBBK7560.ITM~ ~override~
+  SAY NAME1 @650243
+  SAY NAME2 @650243
+  SAY UNIDENTIFIED_DESC @650244
+  SAY DESC @650244
+COPY ~Drowlib/itm/CBBK7561.ITM~ ~override~
+  SAY NAME1 @650245
+  SAY NAME2 @650245
+  SAY UNIDENTIFIED_DESC @650246
+  SAY DESC @650246
+  
+COPY ~Drowlib/itm/CB502D1D.ITM~ ~override~
+  SAY NAME1 @650052
+  SAY NAME2 @650052
+  SAY UNIDENTIFIED_DESC @650053
+  SAY DESC @650053
+COPY ~Drowlib/itm/CB502D1H.ITM~ ~override~
+  SAY NAME1 @650054
+  SAY NAME2 @650054
+  SAY UNIDENTIFIED_DESC @650055
+  SAY DESC @650055
+COPY ~Drowlib/itm/CB502D1N.ITM~ ~override~
+  SAY NAME1 @650056
+  SAY NAME2 @650056
+  SAY UNIDENTIFIED_DESC @650057
+  SAY DESC @650057
+COPY ~Drowlib/itm/CB502D1P.ITM~ ~override~
+  SAY NAME1 @650058
+  SAY NAME2 @650058
+  SAY UNIDENTIFIED_DESC @650059
+  SAY DESC @650059
+COPY ~Drowlib/itm/CB502D1S.ITM~ ~override~
+  SAY NAME1 @650061
+  SAY NAME2 @650061
+  SAY UNIDENTIFIED_DESC @650062
+  SAY DESC @650062
+COPY ~Drowlib/itm/CB502D2B.ITM~ ~override~
+  SAY NAME1 @650063
+  SAY NAME2 @650063
+  SAY UNIDENTIFIED_DESC @650064
+  SAY DESC @650064
+COPY ~Drowlib/itm/CB502D2D.ITM~ ~override~
+  SAY NAME1 @650066
+  SAY NAME2 @650066
+  SAY UNIDENTIFIED_DESC @650067
+  SAY DESC @650067
+COPY ~Drowlib/itm/CB502D2N.ITM~ ~override~
+  SAY NAME1 @650068
+  SAY NAME2 @650068
+  SAY UNIDENTIFIED_DESC @650069
+  SAY DESC @650069
+COPY ~Drowlib/itm/CB502D2T.ITM~ ~override~
+  SAY NAME1 @650070
+  SAY NAME2 @650070
+  SAY UNIDENTIFIED_DESC @650071
+  SAY DESC @650071
+COPY ~Drowlib/itm/CB502D3D.ITM~ ~override~
+  SAY NAME1 @650072
+  SAY NAME2 @650072
+  SAY UNIDENTIFIED_DESC @650073
+  SAY DESC @650073
+COPY ~Drowlib/itm/CB502D3G.ITM~ ~override~
+  SAY NAME1 @650074
+  SAY NAME2 @650074
+  SAY UNIDENTIFIED_DESC @650075
+  SAY DESC @650075
+COPY ~Drowlib/itm/CB502D3N.ITM~ ~override~
+  SAY NAME1 @650076
+  SAY NAME2 @650076
+  SAY UNIDENTIFIED_DESC @650077
+  SAY DESC @650077
+COPY ~Drowlib/itm/CB502D3U.ITM~ ~override~
+  SAY NAME1 @650078
+  SAY NAME2 @650078
+  SAY UNIDENTIFIED_DESC @650079
+  SAY DESC @650079
+COPY ~Drowlib/itm/CB502D4F.ITM~ ~override~
+  SAY NAME1 @650080
+  SAY NAME2 @650080
+  SAY UNIDENTIFIED_DESC @650081
+  SAY DESC @650081
+COPY ~Drowlib/itm/CB502D4G.ITM~ ~override~
+  SAY NAME1 @650082
+  SAY NAME2 @650082
+  SAY UNIDENTIFIED_DESC @650083
+  SAY DESC @650083
+COPY ~Drowlib/itm/CB502D4H.ITM~ ~override~
+  SAY NAME1 @650084
+  SAY NAME2 @650084
+  SAY UNIDENTIFIED_DESC @650085
+  SAY DESC @650085
+COPY ~Drowlib/itm/CB502D4N.ITM~ ~override~
+  SAY NAME1 @650086
+  SAY NAME2 @650086
+  SAY UNIDENTIFIED_DESC @650087
+  SAY DESC @650087
+COPY ~Drowlib/itm/CB502D5B.ITM~ ~override~
+  SAY NAME1 @650088
+  SAY NAME2 @650088
+  SAY UNIDENTIFIED_DESC @650089
+  SAY DESC @650089
+COPY ~Drowlib/itm/CB502D5N.ITM~ ~override~
+  SAY NAME1 @650090
+  SAY NAME2 @650090
+  SAY UNIDENTIFIED_DESC @650091
+  SAY DESC @650091
+COPY ~Drowlib/itm/CB502D5O.ITM~ ~override~
+  SAY NAME1 @650092
+  SAY NAME2 @650092
+  SAY UNIDENTIFIED_DESC @650093
+  SAY DESC @650093
+COPY ~Drowlib/itm/CB502D5P.ITM~ ~override~
+  SAY NAME1 @650095
+  SAY NAME2 @650095
+  SAY UNIDENTIFIED_DESC @650096
+  SAY DESC @650096
+
+
+
+
+
+
+ 
