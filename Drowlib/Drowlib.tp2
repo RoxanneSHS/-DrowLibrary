@@ -3,7 +3,7 @@ AUTHOR ~Roxanne@baldursextendedworld.com based on a quest from Charles Bisson's 
 
 AUTO_TRA ~Drowlib/TRA~
 
-VERSION ~v0.1~
+VERSION ~v0.2~
 
 LANGUAGE ~English~ ~english~ ~Drowlib/TRA/setup.tra~
 
@@ -515,7 +515,44 @@ COPY ~Drowlib/itm/CB502D5P.ITM~ ~override~
   SAY UNIDENTIFIED_DESC @650096
   SAY DESC @650096
 
+ACTION_FOR_EACH var IN bam wav ini BEGIN
+		ACTION_BASH_FOR ~Drowlib/chimera~ ~^.+\.%var%$~ BEGIN
+			ACTION_IF NOT FILE_EXISTS_IN_GAME ~%BASH_FOR_FILE%~ BEGIN
+				COPY ~%BASH_FOR_FILESPEC%~ ~override~
+			END
+		END
+	END	
+    COPY_EXISTING 
+		~CBCHIMRA.CRE~        ~override~
+			WRITE_LONG 0x28  0xE268
+    BUT_ONLY_IF_IT_CHANGES
+    
+ACTION_FOR_EACH var IN bam wav BEGIN
+		ACTION_BASH_FOR ~CtBEE/anim/drider_male~ ~^.+\.%var%$~ BEGIN
+			ACTION_IF NOT FILE_EXISTS_IN_GAME ~%BASH_FOR_FILE%~ BEGIN
+				COPY ~%BASH_FOR_FILESPEC%~ ~override~
+			END
+		END
+	END		
+    COPY_EXISTING 
+		~CBDRIMML.CRE~        ~override~
+		~CBDRIMSL.CRE~        ~override~
+			WRITE_LONG 0x28  0xE282
+    BUT_ONLY_IF_IT_CHANGES
 
+	ACTION_FOR_EACH var IN bam wav BEGIN
+		ACTION_BASH_FOR ~CtBEE/anim/drider_female~ ~^.+\.%var%$~ BEGIN
+			ACTION_IF NOT FILE_EXISTS_IN_GAME ~%BASH_FOR_FILE%~ BEGIN
+				COPY ~%BASH_FOR_FILESPEC%~ ~override~
+			END
+		END
+	END	
+    COPY_EXISTING 
+		~CBDRIFSL.CRE~        ~override~
+		~CBDRIFML.CRE~        ~override~
+		~CBDRIFAL.CRE~        ~override~
+			WRITE_LONG 0x28  0xE283
+    BUT_ONLY_IF_IT_CHANGES
 
 
 
