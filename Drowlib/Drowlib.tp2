@@ -528,7 +528,7 @@ ACTION_FOR_EACH var IN bam wav ini BEGIN
     BUT_ONLY_IF_IT_CHANGES
     
 ACTION_FOR_EACH var IN bam wav BEGIN
-		ACTION_BASH_FOR ~CtBEE/anim/drider_male~ ~^.+\.%var%$~ BEGIN
+		ACTION_BASH_FOR ~Drowlib/drider_male~ ~^.+\.%var%$~ BEGIN
 			ACTION_IF NOT FILE_EXISTS_IN_GAME ~%BASH_FOR_FILE%~ BEGIN
 				COPY ~%BASH_FOR_FILESPEC%~ ~override~
 			END
@@ -541,7 +541,7 @@ ACTION_FOR_EACH var IN bam wav BEGIN
     BUT_ONLY_IF_IT_CHANGES
 
 	ACTION_FOR_EACH var IN bam wav BEGIN
-		ACTION_BASH_FOR ~CtBEE/anim/drider_female~ ~^.+\.%var%$~ BEGIN
+		ACTION_BASH_FOR ~Drowlib/drider_female~ ~^.+\.%var%$~ BEGIN
 			ACTION_IF NOT FILE_EXISTS_IN_GAME ~%BASH_FOR_FILE%~ BEGIN
 				COPY ~%BASH_FOR_FILESPEC%~ ~override~
 			END
