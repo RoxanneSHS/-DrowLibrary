@@ -1,11 +1,12 @@
 BACKUP ~Drowlib/backup~
 AUTHOR ~Roxanne@baldursextendedworld.com based on a quest from Charles Bisson's CtB~
 
-AUTO_TRA ~Drowlib/TRA~
+AUTO_TRA ~Drowlib/TRA/%s~
 
-VERSION ~v0.2~
+VERSION ~v0.3~
 
-LANGUAGE ~English~ ~english~ ~Drowlib/TRA/setup.tra~
+LANGUAGE ~English~ ~english~ ~Drowlib/TRA/English/setup.tra~
+LANGUAGE ~Russian (by Arcanecoast.ru)~ ~russian~ ~Drowlib/TRA/Russian/setup.tra~
 
 BEGIN ~Drow Library~
 
