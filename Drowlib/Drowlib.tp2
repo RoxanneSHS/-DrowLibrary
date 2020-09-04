@@ -3,10 +3,11 @@ AUTHOR ~Roxanne@baldursextendedworld.com based on a quest from Charles Bisson's 
 
 AUTO_TRA ~Drowlib/TRA/%s~
 
-VERSION ~v0.3~
+VERSION ~v0.4~
 
 LANGUAGE ~English~ ~english~ ~Drowlib/TRA/English/setup.tra~
 LANGUAGE ~Russian (by Arcanecoast.ru)~ ~russian~ ~Drowlib/TRA/Russian/setup.tra~
+LANGUAGE ~Deutsch~ ~german~ ~Drowlib/TRA/german/setup.tra~
 
 BEGIN ~Drow Library~
 
